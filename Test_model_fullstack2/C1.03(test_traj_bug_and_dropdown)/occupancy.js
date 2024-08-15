@@ -86,7 +86,7 @@ function cleanTimeFormat(time) {
     return time.replace(/(am|pm)/i, '').trim();
 }
 
-// Add this function to your script
+// trajectory helper function
 function addRoute(map, waypoints) {
     // Convert waypoints to LatLng objects
     var latLngWaypoints = waypoints.map(function(point) {
@@ -105,7 +105,7 @@ function addRoute(map, waypoints) {
     }).addTo(map);
 }
 
-// Modify your existing function to include road-following route
+// This function plots a user's trajectory given a device ID
 async function plotRouteWithOccupancyAndHeatmap(deviceID) {
     const trajectoryData = await fetchTrajectoryData(deviceID);
     if (!trajectoryData) {
