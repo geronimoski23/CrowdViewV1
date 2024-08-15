@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heatmap Prediction Visualization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #mapid {
+            height: 100vh;
+            width: 100%;
+        }
+        .building-button, .floor-button {
+            margin: 5px 5px 5px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .building-button:hover, .floor-button:hover {
+            background-color: #0056b3;
+        }
+        #building-buttons-container {
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        #floor-buttons-container {
+            position: absolute;
+            top: 120px;
+            left: 10px;
+            z-index:1000;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+
+        #timebar-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it floats above the map */
+        }
+        #timebar {
+            margin-right: 10px;
+            width: 100%;
+        }
+        #occupancy-counter, #building-stats {
+            position: absolute;
+            right: 10px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #occupancy-counter {
+            top: 10px;
+        }
+        #building-stats {
+            top: 60px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        @media (max-width: 768px) {
+            #building-buttons-container {
+                top: 70px;
+                left: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            #floor-buttons-container {
+                top: 100px;
+                left: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            #timebar-container {
+                bottom: 10px;
+                width: 100%;
+                left: 0;
+                transform: none;
+                justify-content: space-around;
+            }
+            #timebar {
+                width: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="mapid"></div>
+    <div id="building-buttons-container"></div>
+    <div id="floor-buttons-container"></div>
+    <div id="timebar-container">
+        <input type="range" id="timebar" min="0" max="1439" step="1">
+        <span id="time-display"></span>
+        <button id="start-button">Start</button>
+        <button id="stop-button">Stop</button>
+       
+    </div>
+    <div id="occupancy-counter">Campus predicted occupancy: 0</div>
+    <div id="building-stats"></div>
+    
+    <!-- Add the date input and button here -->
+    <div id="date-input-container" style="position: absolute; top: 10px; left: 10px; z-index: 1000; background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;">
+        <input type="date" id="date-input" value="2021-03-10">
+        <button id="view-occupancy-button">View Occupancy</button>
+    </div>
+
+    <!-- Add the device ID input and button here -->
+    <div id="device-id-input-container" style="position: absolute; top: 10px; left: 320px; z-index: 1000; background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px;">
+        <label for="device-id-input">View Trajectory:</label>
+        <input type="text" id="device-id-input" placeholder="Enter Device ID">
+        <button id="view-trajectory-button">View Trajectory</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <script src="prediction.js"></script>
+</body>
+</html>
